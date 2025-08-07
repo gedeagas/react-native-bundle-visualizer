@@ -1,3 +1,8 @@
+# [3.1.5](https://github.com/IjzerenHein/react-native-bundle-visualizer/releases/tag/v3.1.5) (2024-12-19)
+
+### Features
+- Enhanced `--bundle-size-only` option to output 3 decimal places for more precise bundle size measurements (e.g., "2.456MB" instead of "2.46MB")
+
 # [3.1.4](https://github.com/IjzerenHein/react-native-bundle-visualizer/releases/tag/v3.1.4) (2024-12-19)
 
 ### Features
