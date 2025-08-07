@@ -129,7 +129,7 @@ bundlePromise
     () => {
       // Log bundle-size
       const stats = fs.statSync(bundleOutput);
-      const bundleSizeMB = Math.round((stats.size / (1024 * 1024)) * 100) / 100;
+      const bundleSizeMB = Math.round((stats.size / (1024 * 1024)) * 1000) / 1000;
 
       // If bundle-size-only option is enabled, output only the size in MB
       if (bundleSizeOnly) {
