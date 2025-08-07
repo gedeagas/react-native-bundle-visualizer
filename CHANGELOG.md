@@ -1,3 +1,9 @@
+# [3.1.4](https://github.com/IjzerenHein/react-native-bundle-visualizer/releases/tag/v3.1.4) (2024-12-19)
+
+### Features
+- Added `--bundle-size-only` option for CI/CD environments that outputs only the bundle size in megabytes with "MB" suffix (e.g., "2.45MB")
+- Added comprehensive CI/CD usage documentation with examples for bundle size monitoring and comparison
+
 # [3.1.3](https://github.com/IjzerenHein/react-native-bundle-visualizer/releases/tag/v3.1.3) (2023-02-13)
 
 ### Bug Fixes
