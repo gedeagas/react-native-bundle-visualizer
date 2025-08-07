@@ -134,7 +134,7 @@ bundlePromise
       // If bundle-size-only option is enabled, output only the size in MB
       if (bundleSizeOnly) {
         console.log(bundleSizeMB + 'MB');
-        return;
+        process.exit(0);
       }
 
       // Log increase or decrease since last run
@@ -235,8 +235,7 @@ bundlePromise
   )
   .catch((error) => {
     if (bundleSizeOnly) {
-      console.error('Error generating bundle');
-      process.exit(1);
+      console.error(chalk.red('Error generating bundle'), error);
     } else {
       console.log(chalk.red('=== error ==='), error);
     }
