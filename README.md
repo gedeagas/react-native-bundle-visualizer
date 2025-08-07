@@ -35,6 +35,35 @@ npm install --save-dev @gedeagas/react-native-bundle-visualizer
 npx react-native-bundle-visualizer
 ```
 
+## CI/CD Usage
+
+For CI/CD environments where you need to capture just the bundle size for comparison or monitoring, use the `--bundle-size-only` option:
+
+```bash
+# Output only the bundle size in megabytes (e.g., "2.45MB")
+npx @gedeagas/react-native-bundle-visualizer --bundle-size-only
+
+# Example: Capture bundle size in a variable
+BUNDLE_SIZE=$(npx @gedeagas/react-native-bundle-visualizer --bundle-size-only)
+echo "Bundle size: $BUNDLE_SIZE"
+
+# Example: Compare bundle sizes in CI
+PREV_SIZE=$(cat .bundle-size-cache 2>/dev/null || echo "0MB")
+CURRENT_SIZE=$(npx @gedeagas/react-native-bundle-visualizer --bundle-size-only)
+echo $CURRENT_SIZE > .bundle-size-cache
+
+# Extract numeric values for comparison (removes "MB" suffix)
+PREV_NUM=$(echo $PREV_SIZE | sed 's/MB//')
+CURRENT_NUM=$(echo $CURRENT_SIZE | sed 's/MB//')
+
+if (( $(echo "$CURRENT_NUM > $PREV_NUM" | bc -l) )); then
+  echo "⚠️  Bundle size increased from $PREV_SIZE to $CURRENT_SIZE"
+  exit 1
+else
+  echo "✅ Bundle size is $CURRENT_SIZE (was $PREV_SIZE)"
+fi
+```
+
 ## Command line arguments
 
 All command-line arguments are optional. By default a production build will be created for the `ios` platform.
@@ -51,6 +80,7 @@ All command-line arguments are optional. By default a production build will be c
 | `reset-cache`        | Removes cached react-native files (default is **false**)                                                                                                                      | `--reset-cache`                  |
 | `--expo`             | Set this to true/ false based on whether using expo or not. For eg, set `--expo true` when using expo. Not required to pass this for react-native cli. (default is **false**) | `--expo false`                   |
 | `--no-border-checks` | Pass the same flag to the underlying `source-map-explorer` to disable invalid mapping column/line checks.                                                                     | `--no-border-checks`             |
+| `--bundle-size-only` | Output only the bundle size in plain megabytes with "MB" suffix (e.g., "2.45MB") (useful for CI/CD environments). This will suppress all other output and return just the formatted size.                      | `--bundle-size-only`             |
 
 [smeo]: https://github.com/danvk/source-map-explorer#options
 

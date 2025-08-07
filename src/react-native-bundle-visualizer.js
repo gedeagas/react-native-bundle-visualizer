@@ -7,6 +7,7 @@
  * - Enhanced error handling with fallback to analyze without source maps
  * - Added more lenient options for source map exploration
  * - Improved verbose logging with null checks
+ * - Added --bundle-size-only option for CI/CD environments
  */
 const chalk = require('chalk');
 const fs = require('fs-extra');
@@ -79,6 +80,7 @@ const format = argv.format || 'html';
 const bundleOutputExplorerFile = path.join(outDir, 'explorer.' + format);
 const onlyMapped = !!argv['only-mapped'] || false;
 const borderChecks = argv['border-checks'] || false;
+const bundleSizeOnly = !!argv['bundle-size-only'] || false;
 
 // Make sure the temp dir exists
 fs.ensureDirSync(baseDir);
@@ -92,7 +94,9 @@ if (fs.existsSync(bundleOutput)) {
 }
 
 // Bundle
-console.log(chalk.green.bold('Generating bundle...'));
+if (!bundleSizeOnly) {
+  console.log(chalk.green.bold('Generating bundle...'));
+}
 const commands = [
   'bundle',
   '--platform',
@@ -115,7 +119,9 @@ if (resetCache) {
 
 const reactNativeBin = getReactNativeBin();
 const bundlePromise = execa(reactNativeBin, commands);
-bundlePromise.stdout.pipe(process.stdout);
+if (!bundleSizeOnly) {
+  bundlePromise.stdout.pipe(process.stdout);
+}
 
 // Upon bundle completion, run `source-map-explorer`
 bundlePromise
@@ -123,6 +129,13 @@ bundlePromise
     () => {
       // Log bundle-size
       const stats = fs.statSync(bundleOutput);
+      const bundleSizeMB = Math.round((stats.size / (1024 * 1024)) * 100) / 100;
+
+      // If bundle-size-only option is enabled, output only the size in MB
+      if (bundleSizeOnly) {
+        console.log(bundleSizeMB + 'MB');
+        return;
+      }
 
       // Log increase or decrease since last run
       let deltaSuffix = '';
@@ -143,7 +156,7 @@ bundlePromise
       console.log(
         chalk.green.bold(
           'Bundle is ' +
-            Math.round((stats.size / (1024 * 1024)) * 100) / 100 +
+            bundleSizeMB +
             ' MB in size'
         ) + deltaSuffix
       );
@@ -220,4 +233,11 @@ bundlePromise
       });
     }
   )
-  .catch((error) => console.log(chalk.red('=== error ==='), error));
+  .catch((error) => {
+    if (bundleSizeOnly) {
+      console.error('Error generating bundle');
+      process.exit(1);
+    } else {
+      console.log(chalk.red('=== error ==='), error);
+    }
+  });
