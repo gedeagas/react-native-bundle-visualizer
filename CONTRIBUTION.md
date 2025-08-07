@@ -1,6 +1,6 @@
-# Contributing to React Native Bundle Visualizer
+# Contributing to @gedeagas/react-native-bundle-visualizer
 
-Thank you for helping out with **react-native-bundle-visualizer**. We'd like to make contributions as
+Thank you for helping out with **@gedeagas/react-native-bundle-visualizer**. We'd like to make contributions as
 pleasant as possible, so here's a small guide of how we see it. Happy to hear your feedback about anything, so please let us know.
 
 ## Tests
@@ -38,5 +38,5 @@ Most notably prefixes you'll see:
 
 ## License
 
-By contributing to React Native Bundle Visualizer, you agree that your contributions
+By contributing to @gedeagas/react-native-bundle-visualizer, you agree that your contributions
 will be licensed under the **MIT** license.

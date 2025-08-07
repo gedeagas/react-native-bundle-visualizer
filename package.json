@@ -1,10 +1,10 @@
 {
-  "name": "react-native-bundle-visualizer",
+  "name": "@gedeagas/react-native-bundle-visualizer",
   "version": "3.1.3",
   "description": "See what's inside your react-native bundle",
-  "author": "IjzerenHein <hrutjes@gmail.com>",
+  "author": "gedeagas <gedeagas22@gmail.com>",
   "keywords": [
-    "react-native-bundle-visualizer",
+    "@gedeagas/react-native-bundle-visualizer",
     "react native bundle size",
     "react-native",
     "react native",
@@ -14,8 +14,8 @@
     "bundle-size"
   ],
   "bin": "./src/react-native-bundle-visualizer.js",
-  "repository": "https://github.com/IjzerenHein/react-native-bundle-visualizer",
-  "bugs": "https://github.com/IjzerenHein/react-native-bundle-visualizer/issues",
+  "repository": "https://github.com/gedeagas/react-native-bundle-visualizer",
+  "bugs": "https://github.com/gedeagas/react-native-bundle-visualizer/issues",
   "license": "MIT",
   "files": [
     "src"

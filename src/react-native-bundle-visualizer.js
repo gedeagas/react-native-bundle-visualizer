@@ -1,4 +1,13 @@
 #!/usr/bin/env node
+/**
+ * React Native Bundle Visualizer
+ * 
+ * Patch applied to fix source map analysis issues:
+ * - Commented out --minify flag to avoid source map generation issues
+ * - Enhanced error handling with fallback to analyze without source maps
+ * - Added more lenient options for source map exploration
+ * - Improved verbose logging with null checks
+ */
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const os = require('os');
@@ -96,7 +105,7 @@ const commands = [
   bundleOutput,
   '--sourcemap-output',
   bundleOutputSourceMap,
-  '--minify',
+  // '--minify', // Commented out to avoid issues with source map generation
   isExpo,
 ];
 if (resetCache) {
@@ -141,47 +150,74 @@ bundlePromise
 
       // Make sure the explorer output dir is removed
       fs.removeSync(outDir);
+      console.log(chalk.yellow('Attempting to analyze bundle...'));
       return explore(
         {
           code: bundleOutput,
-          map: bundleOutputSourceMap,
+          map: bundleOutputSourceMap
         },
         {
-          onlyMapped,
-          noBorderChecks: borderChecks === false,
+          onlyMapped: false, // Always include all files, not just mapped ones
           output: {
             format,
             filename: bundleOutputExplorerFile,
           },
+          noBorderChecks: true, // Disable border checks for more lenient processing
+          // Add these options to be more lenient with source map errors
+          tolerateInvalidMappings: true, // Continue processing even with invalid mappings
+          excludeSourceMapComment: true, // Exclude source map comments from analysis
+          replaceMap: {
+            from: '',
+            to: ''
+          }
         }
-      );
-    }
+      ).then((result) => {
+        if (verbose) {
+          if (result.bundles && result.bundles.length > 0) {
+            result.bundles.forEach((bundle) => {
+              Object.keys(bundle.files).forEach((file) => {
+                console.log(
+                  chalk.green(file + ', size: ' + bundle.files[file].size + ' bytes')
+                );
+              });
+            });
+          } else {
+            console.log(chalk.yellow('No bundle information available.'));
+          }
+        }
 
-    // Log info and open output file
+        // Log any errors or warnings
+        if (result.errors) {
+          result.errors.forEach((error) => {
+            if (error.isWarning) {
+              console.log(chalk.yellow.bold('Warning: ' + error.message));
+            } else {
+              console.log(chalk.red.bold('Error: ' + error.message));
+            }
+          });
+        }
+
+        // Open output file
+        return open(bundleOutputExplorerFile);
+      }).catch(error => {
+        console.log(chalk.red('=== Detailed error ==='));
+        console.error(error);
+        
+        // Fallback to analyzing without source map if source map analysis fails
+        console.log(chalk.yellow('Attempting to analyze bundle without source map...'));
+        return explore(
+          {
+            code: bundleOutput
+          },
+          {
+            onlyMapped: false,
+            output: {
+              format,
+              filename: bundleOutputExplorerFile,
+            }
+          }
+        ).then(() => open(bundleOutputExplorerFile));
+      });
+    }
   )
-  .then((result) => {
-    if (verbose) {
-      result.bundles.forEach((bundle) => {
-        Object.keys(bundle.files).forEach((file) => {
-          console.log(
-            chalk.green(file + ', size: ' + bundle.files[file].size + ' bytes')
-          );
-        });
-      });
-    }
-
-    // Log any errors
-    if (result.errors) {
-      result.errors.forEach((error) => {
-        if (error.isWarning) {
-          console.log(chalk.yellow.bold(error.message));
-        } else {
-          console.log(chalk.red.bold(error.message));
-        }
-      });
-    }
-
-    // Open output file
-    return open(bundleOutputExplorerFile);
-  })
   .catch((error) => console.log(chalk.red('=== error ==='), error));

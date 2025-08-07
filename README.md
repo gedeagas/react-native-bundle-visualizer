@@ -1,4 +1,4 @@
-# react-native-bundle-visualizer
+# @gedeagas/react-native-bundle-visualizer
 
 See what's inside of your react-native bundle 📦
 
@@ -14,12 +14,12 @@ Sometimes, importing a single javascript library can drastically increase your b
 
 Make sure [npx](https://github.com/npm/npx) is installed and run the following command in your project root
 
-`npx react-native-bundle-visualizer`
+`npx @gedeagas/react-native-bundle-visualizer`
 
 ### Or install as a dev-dependency
 
 ```sh
-yarn add --dev react-native-bundle-visualizer
+yarn add --dev @gedeagas/react-native-bundle-visualizer
 ```
 
 And run it:
@@ -31,7 +31,8 @@ yarn run react-native-bundle-visualizer
 _or when using npm:_
 
 ```
-npm install --save-dev react-native-bundle-visualizer ./node_modules/.bin/react-native-bundle-visualizer
+npm install --save-dev @gedeagas/react-native-bundle-visualizer
+npx react-native-bundle-visualizer
 ```
 
 ## Command line arguments
