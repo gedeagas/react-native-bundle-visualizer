@@ -1,7 +1,7 @@
 # [3.1.7](https://github.com/gedeagas/react-native-bundle-visualizer/releases/tag/v3.1.7) (2025-08-15)
 
-### Maintenance
-- Publish under `@gedeagas` scope; align metadata and docs. No functional changes.
+### Enhancements
+- Enhance bundle size calculation by introducing a `BYTES_PER_MEGABYTE` constant for consistent MB conversion.
 
 # [3.1.5](https://github.com/IjzerenHein/react-native-bundle-visualizer/releases/tag/v3.1.5) (2024-12-19)
 
