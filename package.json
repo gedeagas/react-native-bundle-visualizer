@@ -13,8 +13,13 @@
     "size",
     "bundle-size"
   ],
-  "bin": "./src/react-native-bundle-visualizer.js",
-  "repository": "https://github.com/gedeagas/react-native-bundle-visualizer",
+  "bin": {
+    "react-native-bundle-visualizer": "src/react-native-bundle-visualizer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gedeagas/react-native-bundle-visualizer.git"
+  },
   "bugs": "https://github.com/gedeagas/react-native-bundle-visualizer/issues",
   "license": "MIT",
   "files": [
