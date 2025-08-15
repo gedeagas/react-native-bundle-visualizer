@@ -37,10 +37,10 @@ npx react-native-bundle-visualizer
 
 ## CI/CD Usage
 
-For CI/CD environments where you need to capture just the bundle size for comparison or monitoring, use the `--bundle-size-only` option:
+For CI/CD environments where you need to capture just the bundle size for comparison or monitoring, use the `--bundle-size-only` option (outputs 3 decimal places):
 
 ```bash
-# Output only the bundle size in megabytes (e.g., "2.45MB")
+# Output only the bundle size in megabytes (e.g., "2.450MB")
 npx @gedeagas/react-native-bundle-visualizer --bundle-size-only
 
 # Example: Capture bundle size in a variable
@@ -80,7 +80,7 @@ All command-line arguments are optional. By default a production build will be c
 | `reset-cache`        | Removes cached react-native files (default is **false**)                                                                                                                      | `--reset-cache`                  |
 | `--expo`             | Set this to true/ false based on whether using expo or not. For eg, set `--expo true` when using expo. Not required to pass this for react-native cli. (default is **false**) | `--expo false`                   |
 | `--no-border-checks` | Pass the same flag to the underlying `source-map-explorer` to disable invalid mapping column/line checks.                                                                     | `--no-border-checks`             |
-| `--bundle-size-only` | Output only the bundle size in plain megabytes with "MB" suffix (e.g., "2.45MB") (useful for CI/CD environments). This will suppress all other output and return just the formatted size.                      | `--bundle-size-only`             |
+| `--bundle-size-only` | Output only the bundle size in plain megabytes with "MB" suffix (3 decimal places, e.g., "2.450MB") (useful for CI/CD environments). This will suppress all other output and return just the formatted size.                      | `--bundle-size-only`             |
 
 [smeo]: https://github.com/danvk/source-map-explorer#options
 
