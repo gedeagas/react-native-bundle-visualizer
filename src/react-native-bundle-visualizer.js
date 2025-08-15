@@ -18,6 +18,7 @@ const execa = require('execa');
 const open = require('open');
 const { explore } = require('source-map-explorer');
 const pkgJSON = JSON.parse(fs.readFileSync('./package.json'));
+const BYTES_PER_MEGABYTE = 1024 * 1024;
 
 function sanitizeString(str) {
   return str ? str.replace(/[^\w]/gi, '') : str;
@@ -129,7 +130,7 @@ bundlePromise
     () => {
       // Log bundle-size
       const stats = fs.statSync(bundleOutput);
-      const bundleSizeMB = Math.round((stats.size / (1024 * 1024)) * 1000) / 1000;
+      const bundleSizeMB = (stats.size / BYTES_PER_MEGABYTE).toFixed(3);
 
       // If bundle-size-only option is enabled, output only the size in MB
       if (bundleSizeOnly) {
@@ -236,6 +237,7 @@ bundlePromise
   .catch((error) => {
     if (bundleSizeOnly) {
       console.error(chalk.red('Error generating bundle'), error);
+      process.exit(1);
     } else {
       console.log(chalk.red('=== error ==='), error);
     }
