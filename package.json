@@ -1,6 +1,6 @@
 {
   "name": "@gedeagas/react-native-bundle-visualizer",
-  "version": "3.1.7",
+  "version": "3.1.8",
   "description": "See what's inside your react-native bundle",
   "author": "gedeagas <gedeagas22@gmail.com>",
   "keywords": [

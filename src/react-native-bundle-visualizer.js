@@ -212,7 +212,13 @@ bundlePromise
         }
 
         // Open output file
-        return open(bundleOutputExplorerFile);
+        console.log(chalk.green('Analysis complete! Opening visualization...'));
+        console.log(chalk.cyan('Output file: ' + bundleOutputExplorerFile));
+        return open(bundleOutputExplorerFile).catch(openError => {
+          console.log(chalk.yellow('Could not open file automatically. Please open manually:'));
+          console.log(chalk.cyan(bundleOutputExplorerFile));
+          console.error('Open error:', openError.message);
+        });
       }).catch(error => {
         console.log(chalk.red('=== Detailed error ==='));
         console.error(error);
@@ -230,7 +236,15 @@ bundlePromise
               filename: bundleOutputExplorerFile,
             }
           }
-        ).then(() => open(bundleOutputExplorerFile));
+        ).then(() => {
+          console.log(chalk.green('Fallback analysis complete! Opening visualization...'));
+          console.log(chalk.cyan('Output file: ' + bundleOutputExplorerFile));
+          return open(bundleOutputExplorerFile).catch(openError => {
+            console.log(chalk.yellow('Could not open file automatically. Please open manually:'));
+            console.log(chalk.cyan(bundleOutputExplorerFile));
+            console.error('Open error:', openError.message);
+          });
+        });
       });
     }
   )

@@ -1,3 +1,16 @@
+# [3.1.8](https://github.com/gedeagas/react-native-bundle-visualizer/releases/tag/v3.1.8) (2025-01-27)
+
+### Bug Fixes
+- Fixed exit code 1 issue in CI environments when using `--bundle-size-only` option - now properly exits with code 0 on success
+- Improved bundle size calculation readability by using `toFixed(3)` instead of manual rounding
+- Added `BYTES_PER_MEGABYTE` constant to replace magic number `1024 * 1024`
+- Enhanced error handling and debugging output for bundle visualization process
+- Added better error messages when file opening fails with fallback instructions
+
+### Improvements
+- Better error logging for bundle generation failures in `--bundle-size-only` mode
+- More informative console output during bundle analysis process
+
 # [3.1.7](https://github.com/gedeagas/react-native-bundle-visualizer/releases/tag/v3.1.7) (2025-08-15)
 
 ### Bug Fixes
